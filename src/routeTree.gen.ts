@@ -12,8 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as EventsRouteImport } from './routes/events'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as RenewMembershipRouteImport } from './routes/renew-membership'
+import { Route as TasteOfIndia2027RouteImport } from './routes/taste-of-india.2027'
+import { Route as TasteOfIndiaAboutRouteImport } from './routes/taste-of-india.about'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -30,6 +33,11 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MembershipRoute = MembershipRouteImport.update({
   id: '/membership',
   path: '/membership',
@@ -40,49 +48,90 @@ const RenewMembershipRoute = RenewMembershipRouteImport.update({
   path: '/renew-membership',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TasteOfIndia2027Route = TasteOfIndia2027RouteImport.update({
+  id: '/taste-of-india/2027',
+  path: '/taste-of-india/2027',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TasteOfIndiaAboutRoute = TasteOfIndiaAboutRouteImport.update({
+  id: '/taste-of-india/about',
+  path: '/taste-of-india/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/events': typeof EventsRoute
   '/membership': typeof MembershipRoute
   '/renew-membership': typeof RenewMembershipRoute
+  '/taste-of-india/2027': typeof TasteOfIndia2027Route
+  '/taste-of-india/about': typeof TasteOfIndiaAboutRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/events': typeof EventsRoute
   '/membership': typeof MembershipRoute
   '/renew-membership': typeof RenewMembershipRoute
+  '/taste-of-india/2027': typeof TasteOfIndia2027Route
+  '/taste-of-india/about': typeof TasteOfIndiaAboutRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/events': typeof EventsRoute
   '/membership': typeof MembershipRoute
   '/renew-membership': typeof RenewMembershipRoute
+  '/taste-of-india/2027': typeof TasteOfIndia2027Route
+  '/taste-of-india/about': typeof TasteOfIndiaAboutRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/contact' | '/membership' | '/renew-membership'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/events'
+    | '/membership'
+    | '/renew-membership'
+    | '/taste-of-india/2027'
+    | '/taste-of-india/about'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/membership' | '/renew-membership'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/events'
+    | '/membership'
+    | '/renew-membership'
+    | '/taste-of-india/2027'
+    | '/taste-of-india/about'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/contact'
+    | '/events'
     | '/membership'
     | '/renew-membership'
+    | '/taste-of-india/2027'
+    | '/taste-of-india/about'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  EventsRoute: typeof EventsRoute
   MembershipRoute: typeof MembershipRoute
   RenewMembershipRoute: typeof RenewMembershipRoute
+  TasteOfIndia2027Route: typeof TasteOfIndia2027Route
+  TasteOfIndiaAboutRoute: typeof TasteOfIndiaAboutRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -108,6 +157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/membership': {
       id: '/membership'
       path: '/membership'
@@ -122,6 +178,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RenewMembershipRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/taste-of-india/2027': {
+      id: '/taste-of-india/2027'
+      path: '/taste-of-india/2027'
+      fullPath: '/taste-of-india/2027'
+      preLoaderRoute: typeof TasteOfIndia2027RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/taste-of-india/about': {
+      id: '/taste-of-india/about'
+      path: '/taste-of-india/about'
+      fullPath: '/taste-of-india/about'
+      preLoaderRoute: typeof TasteOfIndiaAboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -129,8 +199,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  EventsRoute: EventsRoute,
   MembershipRoute: MembershipRoute,
   RenewMembershipRoute: RenewMembershipRoute,
+  TasteOfIndia2027Route: TasteOfIndia2027Route,
+  TasteOfIndiaAboutRoute: TasteOfIndiaAboutRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
