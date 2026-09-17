@@ -1,0 +1,20 @@
+{
+  "source": "https://icaaustin.org",
+  "targetOrganizationDomain": "icarisburt.org",
+  "capabilities": [
+    {"capability":"public pages and navigation","source":"10 sitemap routes","outcome":"recreate","status":"planned","next_action":"implement all routes and shared navigation"},
+    {"capability":"visual design and responsive layouts","source":"published site","outcome":"recreate","status":"planned","next_action":"implement from captured visual references"},
+    {"capability":"site copy and image assets","source":"published site","outcome":"preserve","status":"planned","next_action":"download and bundle public assets, preserving attribution and alt text"},
+    {"capability":"event calendar and event listings","source":"/events","outcome":"recreate","status":"planned","next_action":"implement matching interactive calendar from published event data"},
+    {"capability":"membership and renewal forms","source":"/membership and /renew-membership","outcome":"preserve","status":"pending_audit","next_action":"recreate visible forms and preserve detected submission destinations"},
+    {"capability":"contact form","source":"/contact","outcome":"preserve","status":"pending_audit","next_action":"recreate visible form and preserve detected submission behavior"},
+    {"capability":"donations","source":"PayPal hosted donation link","outcome":"preserve","status":"planned","next_action":"retain existing PayPal destination unless user supplies a replacement"},
+    {"capability":"maps, social links, and external destinations","source":"published site","outcome":"preserve","status":"planned","next_action":"retain source destinations while replacing only organization domain references"},
+    {"capability":"database and records","source":"published site inspection","outcome":"not_detected","status":"not_required","next_action":"none"},
+    {"capability":"authentication and authorization","source":"published site inspection","outcome":"not_detected","status":"not_required","next_action":"none"},
+    {"capability":"uploaded private files","source":"published site inspection","outcome":"not_detected","status":"not_required","next_action":"none"},
+    {"capability":"public API endpoints, callbacks, webhooks, and schedules","source":"published site inspection","outcome":"not_detected","status":"not_required","next_action":"none"},
+    {"capability":"cutover to icarisburt.org","source":"user request","outcome":"configure_after_build","status":"blocked","next_action":"publish and connect icarisburt.org after implementation"},
+    {"capability":"cross-browser and responsive verification","source":"migration requirement","outcome":"verify","status":"planned","next_action":"test representative desktop and mobile pages and interactions"}
+  ]
+}
