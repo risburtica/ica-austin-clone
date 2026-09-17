@@ -1,0 +1,8 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { CheckCircle2, Heart } from "lucide-react";
+import { PageIntro, PublicForm, SectionTitle } from "@/components/page-parts";
+import { Button } from "@/components/ui/button";
+import { donateUrl, pageHead } from "@/lib/site-data";
+export const Route = createFileRoute("/membership")({ head: () => pageHead("Membership", "Join the India Catholic Association community in Central Texas.", "/membership"), component: Membership });
+const benefits=["Invitations to family Masses, retreats, and cultural celebrations","Discounted tickets to the annual Taste of India Fundraiser","Faith formation and children's programs","A supportive network across Austin & Central Texas","Opportunities to serve locally and support charities in India"];
+function Membership(){return <><PageIntro eyebrow="Membership" title="Belong to a home that feels like family"><p>Membership in the India Catholic Association is open to any individual in Texas. Your registration helps us plan for events, keep in touch, and welcome you personally.</p></PageIntro><section className="site-container grid gap-10 py-16 lg:grid-cols-2"><div>{benefits.map(x=><p className="mb-4 flex gap-3" key={x}><CheckCircle2 className="mt-0.5 shrink-0 text-accent-foreground" size={20}/><span>{x}</span></p>)}<Button asChild variant="accent" className="mt-4"><a href={donateUrl} target="_blank" rel="noreferrer"><Heart size={16}/>Support with a Donation</a></Button></div><div><SectionTitle title="Membership signup" description="Fill in a few details — we'll follow up personally."/><div className="mt-6"><PublicForm type="membership"/></div></div></section></>}

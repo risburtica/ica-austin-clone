@@ -10,33 +10,155 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as EventsRouteImport } from './routes/events'
+import { Route as MembershipRouteImport } from './routes/membership'
+import { Route as RenewMembershipRouteImport } from './routes/renew-membership'
+import { Route as TasteOfIndia2027RouteImport } from './routes/taste-of-india.2027'
+import { Route as TasteOfIndiaAboutRouteImport } from './routes/taste-of-india.about'
+import { Route as TasteOfIndiaFundsDisbursementRouteImport } from './routes/taste-of-india.funds-disbursement'
+import { Route as TasteOfIndiaPastRouteImport } from './routes/taste-of-india.past'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MembershipRoute = MembershipRouteImport.update({
+  id: '/membership',
+  path: '/membership',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RenewMembershipRoute = RenewMembershipRouteImport.update({
+  id: '/renew-membership',
+  path: '/renew-membership',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TasteOfIndia2027Route = TasteOfIndia2027RouteImport.update({
+  id: '/taste-of-india/2027',
+  path: '/taste-of-india/2027',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TasteOfIndiaAboutRoute = TasteOfIndiaAboutRouteImport.update({
+  id: '/taste-of-india/about',
+  path: '/taste-of-india/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TasteOfIndiaFundsDisbursementRoute =
+  TasteOfIndiaFundsDisbursementRouteImport.update({
+    id: '/taste-of-india/funds-disbursement',
+    path: '/taste-of-india/funds-disbursement',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const TasteOfIndiaPastRoute = TasteOfIndiaPastRouteImport.update({
+  id: '/taste-of-india/past',
+  path: '/taste-of-india/past',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/events': typeof EventsRoute
+  '/membership': typeof MembershipRoute
+  '/renew-membership': typeof RenewMembershipRoute
+  '/taste-of-india/2027': typeof TasteOfIndia2027Route
+  '/taste-of-india/about': typeof TasteOfIndiaAboutRoute
+  '/taste-of-india/funds-disbursement': typeof TasteOfIndiaFundsDisbursementRoute
+  '/taste-of-india/past': typeof TasteOfIndiaPastRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/events': typeof EventsRoute
+  '/membership': typeof MembershipRoute
+  '/renew-membership': typeof RenewMembershipRoute
+  '/taste-of-india/2027': typeof TasteOfIndia2027Route
+  '/taste-of-india/about': typeof TasteOfIndiaAboutRoute
+  '/taste-of-india/funds-disbursement': typeof TasteOfIndiaFundsDisbursementRoute
+  '/taste-of-india/past': typeof TasteOfIndiaPastRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/events': typeof EventsRoute
+  '/membership': typeof MembershipRoute
+  '/renew-membership': typeof RenewMembershipRoute
+  '/taste-of-india/2027': typeof TasteOfIndia2027Route
+  '/taste-of-india/about': typeof TasteOfIndiaAboutRoute
+  '/taste-of-india/funds-disbursement': typeof TasteOfIndiaFundsDisbursementRoute
+  '/taste-of-india/past': typeof TasteOfIndiaPastRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/events'
+    | '/membership'
+    | '/renew-membership'
+    | '/taste-of-india/2027'
+    | '/taste-of-india/about'
+    | '/taste-of-india/funds-disbursement'
+    | '/taste-of-india/past'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/events'
+    | '/membership'
+    | '/renew-membership'
+    | '/taste-of-india/2027'
+    | '/taste-of-india/about'
+    | '/taste-of-india/funds-disbursement'
+    | '/taste-of-india/past'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/events'
+    | '/membership'
+    | '/renew-membership'
+    | '/taste-of-india/2027'
+    | '/taste-of-india/about'
+    | '/taste-of-india/funds-disbursement'
+    | '/taste-of-india/past'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  EventsRoute: typeof EventsRoute
+  MembershipRoute: typeof MembershipRoute
+  RenewMembershipRoute: typeof RenewMembershipRoute
+  TasteOfIndia2027Route: typeof TasteOfIndia2027Route
+  TasteOfIndiaAboutRoute: typeof TasteOfIndiaAboutRoute
+  TasteOfIndiaFundsDisbursementRoute: typeof TasteOfIndiaFundsDisbursementRoute
+  TasteOfIndiaPastRoute: typeof TasteOfIndiaPastRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +170,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/membership': {
+      id: '/membership'
+      path: '/membership'
+      fullPath: '/membership'
+      preLoaderRoute: typeof MembershipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/renew-membership': {
+      id: '/renew-membership'
+      path: '/renew-membership'
+      fullPath: '/renew-membership'
+      preLoaderRoute: typeof RenewMembershipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/taste-of-india/2027': {
+      id: '/taste-of-india/2027'
+      path: '/taste-of-india/2027'
+      fullPath: '/taste-of-india/2027'
+      preLoaderRoute: typeof TasteOfIndia2027RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/taste-of-india/about': {
+      id: '/taste-of-india/about'
+      path: '/taste-of-india/about'
+      fullPath: '/taste-of-india/about'
+      preLoaderRoute: typeof TasteOfIndiaAboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/taste-of-india/funds-disbursement': {
+      id: '/taste-of-india/funds-disbursement'
+      path: '/taste-of-india/funds-disbursement'
+      fullPath: '/taste-of-india/funds-disbursement'
+      preLoaderRoute: typeof TasteOfIndiaFundsDisbursementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/taste-of-india/past': {
+      id: '/taste-of-india/past'
+      path: '/taste-of-india/past'
+      fullPath: '/taste-of-india/past'
+      preLoaderRoute: typeof TasteOfIndiaPastRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  EventsRoute: EventsRoute,
+  MembershipRoute: MembershipRoute,
+  RenewMembershipRoute: RenewMembershipRoute,
+  TasteOfIndia2027Route: TasteOfIndia2027Route,
+  TasteOfIndiaAboutRoute: TasteOfIndiaAboutRoute,
+  TasteOfIndiaFundsDisbursementRoute: TasteOfIndiaFundsDisbursementRoute,
+  TasteOfIndiaPastRoute: TasteOfIndiaPastRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
