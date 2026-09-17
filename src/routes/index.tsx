@@ -1,24 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
+import { ArrowRight, CalendarDays, Heart, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { SectionTitle } from "@/components/page-parts";
+import { assets } from "@/lib/site-assets";
+import { donateUrl, events, pageHead } from "@/lib/site-data";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+export const Route = createFileRoute("/")({ head: () => pageHead("Home", "A faith-and-culture home for Indian Catholics in Austin and Central Texas.", "/"), component: Index });
+const slides = [[assets.easter,"Easter celebration · 2026","ICA families gathered for the Easter 2026 celebration"],[assets.picnic,"Community picnic · 2026","ICA families gathered outdoors for the 2026 community picnic"],[assets.volunteer2026,"Community service · 2026","ICA volunteers serving together in 2026"],[assets.volunteer2025,"Community service · 2025","ICA adults and youth volunteering in 2025"],[assets.christmas,"Christmas celebration · 2025","ICA community members gathered for Christmas 2025"]];
+function Index(){const [slide,setSlide]=useState(0);useEffect(()=>{const id=setInterval(()=>setSlide(v=>(v+1)%slides.length),6000);return()=>clearInterval(id)},[]);return <>
+  <section className="site-container pt-8"><div className="flex items-end justify-between"><h2 className="font-display text-xl font-semibold text-primary">Upcoming Events</h2><Link to="/events" className="inline-flex items-center gap-1 text-sm font-semibold text-accent-foreground">See all <ArrowRight size={15}/></Link></div><div className="mt-4 grid gap-3 lg:grid-cols-3">{events.map(e=><Link key={e.title} to="/events" className="warm-card flex items-center justify-between p-4"><div><h3 className="font-display font-semibold text-primary">{e.title}</h3><p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground"><CalendarDays size={13}/>{e.date} · {e.time}</p></div><ArrowRight size={17} className="text-accent-foreground"/></Link>)}</div></section>
+  <section className="site-container pt-10"><div className="relative aspect-[2.4/1] min-h-72 overflow-hidden rounded-xl shadow-xl"><img src={slides[slide][0]} alt={slides[slide][2]} className="size-full object-cover transition-opacity"/><span className="absolute bottom-4 left-4 rounded-md bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground">{slides[slide][1]}</span><div className="absolute bottom-4 right-4 flex rounded-full bg-primary p-1.5">{slides.map((_,i)=><button key={i} onClick={()=>setSlide(i)} aria-label={`Show slide ${i+1}`} className={`size-3 rounded-full border-2 border-primary ${i===slide?"bg-accent":"bg-primary-foreground/55"}`}/>)}</div></div></section>
+  <section className="site-container py-16 text-center"><p className="eyebrow mx-auto inline-flex items-center gap-2 rounded-full border border-accent px-3 py-1.5"><Sparkles size={13}/>Faith · Culture · Community</p><h1 className="mx-auto mt-5 max-w-4xl font-display text-4xl font-semibold leading-[1.05] text-primary sm:text-5xl md:text-6xl">India Catholic Association <span className="text-accent-foreground">of Central Texas</span></h1><p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">A faith-and-culture home for Indian Catholics in Austin & Central Texas. Gather for Mass, cultural celebrations, service, and lifelong friendships.</p><div className="mt-7 flex flex-wrap justify-center gap-3"><Button asChild><Link to="/about">About Us</Link></Button><Button asChild variant="accent"><a href={donateUrl} target="_blank" rel="noreferrer"><Heart size={16}/>Donate</a></Button></div></section>
+  <section className="bg-muted/55 py-20"><div className="site-container grid items-center gap-10 lg:grid-cols-2"><div><p className="eyebrow">Signature Event</p><h2 className="mt-3 font-display text-4xl font-semibold text-primary">Taste of India Fundraiser</h2><p className="mt-5 leading-relaxed text-muted-foreground">A vibrant evening of authentic Indian cuisine, classical and folk dance, and community — with all proceeds supporting charitable initiatives in India and here in Austin.</p><div className="mt-6 flex flex-wrap gap-3"><Button asChild variant="accent"><a href={donateUrl} target="_blank" rel="noreferrer">Donate Now</a></Button><Button asChild variant="outline"><Link to="/taste-of-india/about">Learn more</Link></Button></div></div><img src={assets.taste} alt="Taste of India Fundraiser — An Evening of Union" className="w-full rounded-xl shadow-lg"/></div></section>
+  <section className="site-container py-20"><SectionTitle eyebrow="With gratitude" title="Our Sponsors" description="Local businesses who help make ICA's ministries and events possible."/><div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{[[assets.willowbend,"Willow Bend Mortgage","Home financing partner","https://www.willowbendmortgage.com/"],[assets.dental,"Dental Smiles","Family & cosmetic dentistry","https://www.mydentalsmiles.com/"],[assets.ronparks,"Ron Parks Photography","Portraits & events","https://www.ronparksphotography.com/"],[assets.creative,"Creative Planning","Wealth & financial planning","https://creativeplanning.com/"]].map(([src,name,desc,url])=><a key={name} href={url} target="_blank" rel="noreferrer" className="warm-card p-5"><div className="grid h-24 place-items-center rounded-md bg-muted p-3"><img src={src} alt={`${name} logo`} className="max-h-16 max-w-full"/></div><h3 className="mt-4 font-display text-lg font-semibold text-primary">{name}</h3><p className="mt-1 text-sm text-muted-foreground">{desc}</p></a>)}</div></section>
+  <section className="site-container pb-4 text-center"><div className="border-y border-border py-14"><p className="eyebrow">Join our community</p><h2 className="mt-3 font-display text-4xl font-semibold text-primary">Stay connected with ICA</h2><p className="mx-auto mt-3 max-w-xl text-muted-foreground">Receive event invitations, community news, and reflections. No spam — just warm updates from your Central Texas family.</p><Button asChild className="mt-6"><Link to="/membership">Join the community</Link></Button></div></section>
+</>}
