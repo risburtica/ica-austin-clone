@@ -15,6 +15,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as RenewMembershipRouteImport } from './routes/renew-membership'
+import { Route as RsvpRouteImport } from './routes/rsvp'
 import { Route as TasteOfIndia2027RouteImport } from './routes/taste-of-india.2027'
 import { Route as TasteOfIndiaAboutRouteImport } from './routes/taste-of-india.about'
 import { Route as TasteOfIndiaFundsDisbursementRouteImport } from './routes/taste-of-india.funds-disbursement'
@@ -50,6 +51,11 @@ const RenewMembershipRoute = RenewMembershipRouteImport.update({
   path: '/renew-membership',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RsvpRoute = RsvpRouteImport.update({
+  id: '/rsvp',
+  path: '/rsvp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TasteOfIndia2027Route = TasteOfIndia2027RouteImport.update({
   id: '/taste-of-india/2027',
   path: '/taste-of-india/2027',
@@ -79,6 +85,7 @@ export interface FileRoutesByFullPath {
   '/events': typeof EventsRoute
   '/membership': typeof MembershipRoute
   '/renew-membership': typeof RenewMembershipRoute
+  '/rsvp': typeof RsvpRoute
   '/taste-of-india/2027': typeof TasteOfIndia2027Route
   '/taste-of-india/about': typeof TasteOfIndiaAboutRoute
   '/taste-of-india/funds-disbursement': typeof TasteOfIndiaFundsDisbursementRoute
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/events': typeof EventsRoute
   '/membership': typeof MembershipRoute
   '/renew-membership': typeof RenewMembershipRoute
+  '/rsvp': typeof RsvpRoute
   '/taste-of-india/2027': typeof TasteOfIndia2027Route
   '/taste-of-india/about': typeof TasteOfIndiaAboutRoute
   '/taste-of-india/funds-disbursement': typeof TasteOfIndiaFundsDisbursementRoute
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/events': typeof EventsRoute
   '/membership': typeof MembershipRoute
   '/renew-membership': typeof RenewMembershipRoute
+  '/rsvp': typeof RsvpRoute
   '/taste-of-india/2027': typeof TasteOfIndia2027Route
   '/taste-of-india/about': typeof TasteOfIndiaAboutRoute
   '/taste-of-india/funds-disbursement': typeof TasteOfIndiaFundsDisbursementRoute
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/membership'
     | '/renew-membership'
+    | '/rsvp'
     | '/taste-of-india/2027'
     | '/taste-of-india/about'
     | '/taste-of-india/funds-disbursement'
@@ -130,6 +140,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/membership'
     | '/renew-membership'
+    | '/rsvp'
     | '/taste-of-india/2027'
     | '/taste-of-india/about'
     | '/taste-of-india/funds-disbursement'
@@ -142,6 +153,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/membership'
     | '/renew-membership'
+    | '/rsvp'
     | '/taste-of-india/2027'
     | '/taste-of-india/about'
     | '/taste-of-india/funds-disbursement'
@@ -155,6 +167,7 @@ export interface RootRouteChildren {
   EventsRoute: typeof EventsRoute
   MembershipRoute: typeof MembershipRoute
   RenewMembershipRoute: typeof RenewMembershipRoute
+  RsvpRoute: typeof RsvpRoute
   TasteOfIndia2027Route: typeof TasteOfIndia2027Route
   TasteOfIndiaAboutRoute: typeof TasteOfIndiaAboutRoute
   TasteOfIndiaFundsDisbursementRoute: typeof TasteOfIndiaFundsDisbursementRoute
@@ -205,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RenewMembershipRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rsvp': {
+      id: '/rsvp'
+      path: '/rsvp'
+      fullPath: '/rsvp'
+      preLoaderRoute: typeof RsvpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/taste-of-india/2027': {
       id: '/taste-of-india/2027'
       path: '/taste-of-india/2027'
@@ -243,6 +263,7 @@ const rootRouteChildren: RootRouteChildren = {
   EventsRoute: EventsRoute,
   MembershipRoute: MembershipRoute,
   RenewMembershipRoute: RenewMembershipRoute,
+  RsvpRoute: RsvpRoute,
   TasteOfIndia2027Route: TasteOfIndia2027Route,
   TasteOfIndiaAboutRoute: TasteOfIndiaAboutRoute,
   TasteOfIndiaFundsDisbursementRoute: TasteOfIndiaFundsDisbursementRoute,
