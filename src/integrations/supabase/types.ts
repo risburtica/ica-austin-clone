@@ -44,6 +44,39 @@ export type Database = {
         }
         Relationships: []
       }
+      rsvp_submissions: {
+        Row: {
+          adults: number
+          children: number
+          created_at: string
+          email: string | null
+          event_title: string
+          full_name: string
+          id: string
+          message: string | null
+        }
+        Insert: {
+          adults: number
+          children?: number
+          created_at?: string
+          email?: string | null
+          event_title: string
+          full_name: string
+          id?: string
+          message?: string | null
+        }
+        Update: {
+          adults?: number
+          children?: number
+          created_at?: string
+          email?: string | null
+          event_title?: string
+          full_name?: string
+          id?: string
+          message?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

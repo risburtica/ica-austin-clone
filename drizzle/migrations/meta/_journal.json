@@ -8,6 +8,13 @@
       "when": 1789665150126,
       "tag": "0000_create_public_form_submissions",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1789703817827,
+      "tag": "0001_create_rsvp_submissions",
+      "breakpoints": true
     }
   ]
 }
