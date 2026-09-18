@@ -6,16 +6,16 @@ export const events = [
   { title: "Taste of India Fundraiser 2027", date: "Sat, Apr 24, 2027", time: "2:00 PM", place: "Dell JCC, 7300 Hart Lane, Austin", tags: ["fundraiser", "taste-of-india", "culture"] },
 ];
 
-export const pastEvents = [
-  ["Virtual “Tranquil Flow” Yoga", "Sat, Jul 11, 2026 · 10:00 AM", "Virtual", "wellness · virtual"],
-  ["Community Care at St. Vincent de Paul", "Sat, Jun 27, 2026 · 10:00 AM", "901 W Braker Ln, Austin", "service"],
-  ["Annual Parent's Day Picnic 2026", "Sun, Jun 7, 2026 · 12:00 PM", "Emma Long Metropolitan Park, Austin", "family · picnic"],
-  ["Taste of India Fundraiser 2026", "Sat, Apr 25, 2026 · 7:00 PM", "Dell JCC, 7300 Hart Lane, Austin", "fundraiser · signature"],
-  ["ICA Easter Party 2026", "Sun, Apr 5, 2026 · 5:00 PM", "Blackhawk Amenity Center, Pflugerville", "faith · family"],
-  ["ICA Annual Christmas Party 2025", "Sat, Dec 6, 2025 · 7:00 PM", "The Gathering Place, Austin", "faith · family"],
-  ["ICA Annual Meeting & Game Night", "Sat, Nov 1, 2025 · 7:00 PM", "Blackhawk Amenity Center, Pflugerville", "community"],
-  ["ICA Grandparents Lunch", "Sat, May 10, 2025 · 1:00 PM", "Private residence", "family"],
-  ["ICA Easter Party 2025", "Sun, Apr 20, 2025 · 5:00 PM", "Blackhawk Amenity Center, Pflugerville", "faith · family"],
+export const pastEvents: { title: string; date: string; place: string; tags: string }[] = [
+  { title: "Virtual “Tranquil Flow” Yoga", date: "Sat, Jul 11, 2026 · 10:00 AM", place: "Virtual", tags: "wellness · virtual" },
+  { title: "Community Care at St. Vincent de Paul", date: "Sat, Jun 27, 2026 · 10:00 AM", place: "901 W Braker Ln, Austin", tags: "service" },
+  { title: "Annual Parent's Day Picnic 2026", date: "Sun, Jun 7, 2026 · 12:00 PM", place: "Emma Long Metropolitan Park, Austin", tags: "family · picnic" },
+  { title: "Taste of India Fundraiser 2026", date: "Sat, Apr 25, 2026 · 7:00 PM", place: "Dell JCC, 7300 Hart Lane, Austin", tags: "fundraiser · signature" },
+  { title: "ICA Easter Party 2026", date: "Sun, Apr 5, 2026 · 5:00 PM", place: "Blackhawk Amenity Center, Pflugerville", tags: "faith · family" },
+  { title: "ICA Annual Christmas Party 2025", date: "Sat, Dec 6, 2025 · 7:00 PM", place: "The Gathering Place, Austin", tags: "faith · family" },
+  { title: "ICA Annual Meeting & Game Night", date: "Sat, Nov 1, 2025 · 7:00 PM", place: "Blackhawk Amenity Center, Pflugerville", tags: "community" },
+  { title: "ICA Grandparents Lunch", date: "Sat, May 10, 2025 · 1:00 PM", place: "Private residence", tags: "family" },
+  { title: "ICA Easter Party 2025", date: "Sun, Apr 20, 2025 · 5:00 PM", place: "Blackhawk Amenity Center, Pflugerville", tags: "faith · family" },
 ];
 
 export function pageHead(title: string, description: string, path: string) {
