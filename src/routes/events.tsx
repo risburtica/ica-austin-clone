@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { EventCard, PageIntro, SectionTitle } from "@/components/page-parts";
 import { events, pageHead, pastEvents } from "@/lib/site-data";
