@@ -14,6 +14,89 @@ export type Database = {
   }
   public: {
     Tables: {
+      event_rsvps: {
+        Row: {
+          adults: number
+          attending: boolean
+          children: number
+          created_at: string
+          email: string
+          event_id: string
+          full_name: string
+          id: string
+          message: string | null
+        }
+        Insert: {
+          adults?: number
+          attending?: boolean
+          children?: number
+          created_at?: string
+          email: string
+          event_id: string
+          full_name: string
+          id?: string
+          message?: string | null
+        }
+        Update: {
+          adults?: number
+          attending?: boolean
+          children?: number
+          created_at?: string
+          email?: string
+          event_id?: string
+          full_name?: string
+          id?: string
+          message?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_rsvps_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          created_at: string
+          description: string | null
+          event_date: string
+          id: string
+          is_active: boolean
+          location: string | null
+          members_only: boolean
+          rsvp_deadline: string | null
+          slug: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          event_date: string
+          id?: string
+          is_active?: boolean
+          location?: string | null
+          members_only?: boolean
+          rsvp_deadline?: string | null
+          slug: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          event_date?: string
+          id?: string
+          is_active?: boolean
+          location?: string | null
+          members_only?: boolean
+          rsvp_deadline?: string | null
+          slug?: string
+          title?: string
+        }
+        Relationships: []
+      }
       form_submissions: {
         Row: {
           created_at: string
@@ -41,6 +124,30 @@ export type Database = {
           full_name?: string
           id?: string
           message?: string | null
+        }
+        Relationships: []
+      }
+      membership_roster: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id?: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          status?: string
         }
         Relationships: []
       }
