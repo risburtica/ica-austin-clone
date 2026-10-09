@@ -38,7 +38,7 @@ function Rsvp() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<{ code: string; message: string } | null>(null);
   const [done, setDone] = useState<Done | null>(null);
-  const [closed, setClosed] = useState<string | null>(event.isOpen ? null : null);
+  const [closed, setClosed] = useState<string | null>(null);
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
