@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_login_attempts: {
+        Row: {
+          failed_count: number
+          ip: string
+          locked_until: string | null
+          updated_at: string
+          window_start: string
+        }
+        Insert: {
+          failed_count?: number
+          ip: string
+          locked_until?: string | null
+          updated_at?: string
+          window_start?: string
+        }
+        Update: {
+          failed_count?: number
+          ip?: string
+          locked_until?: string | null
+          updated_at?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
       event_rsvps: {
         Row: {
           adults: number
