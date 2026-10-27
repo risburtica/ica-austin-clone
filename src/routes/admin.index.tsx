@@ -22,18 +22,21 @@ export const Route = createFileRoute("/admin/")({
 function AdminLogin() {
   const router = useRouter();
   const login = useServerFn(adminLogin);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setBusy(true);
-    setError(false);
+    setError(null);
     const passcode = String(new FormData(e.currentTarget).get("passcode") ?? "");
     const res = await login({ data: { passcode } });
     setBusy(false);
     if (res.ok) await router.navigate({ to: "/admin/dashboard" });
-    else setError(true);
+    else if (res.locked)
+      setError(`Too many failed attempts. Locked out for ${res.minutes} more minute${res.minutes === 1 ? "" : "s"}.`);
+    else
+      setError(`Incorrect passcode. You have ${res.remaining} attempt${res.remaining === 1 ? "" : "s"} remaining.`);
   }
 
   return (
@@ -45,7 +48,7 @@ function AdminLogin() {
           Admin Passcode
           <input name="passcode" type="password" required autoComplete="current-password" className="form-input" />
         </label>
-        {error && <p className="mt-3 text-sm text-destructive">Incorrect passcode. Please try again.</p>}
+        {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
         <Button type="submit" className="mt-6 w-full" disabled={busy}>
           {busy ? "Signing in…" : "Sign In"}
         </Button>
