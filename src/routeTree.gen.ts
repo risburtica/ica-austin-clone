@@ -15,6 +15,9 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as RenewMembershipRouteImport } from './routes/renew-membership'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as AdminRsvpRouteImport } from './routes/admin.rsvp'
 import { Route as RsvpSlugRouteImport } from './routes/rsvp.$slug'
 import { Route as TasteOfIndia2027RouteImport } from './routes/taste-of-india.2027'
 import { Route as TasteOfIndiaAboutRouteImport } from './routes/taste-of-india.about'
@@ -51,6 +54,21 @@ const RenewMembershipRoute = RenewMembershipRouteImport.update({
   path: '/renew-membership',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRsvpRoute = AdminRsvpRouteImport.update({
+  id: '/admin/rsvp',
+  path: '/admin/rsvp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RsvpSlugRoute = RsvpSlugRouteImport.update({
   id: '/rsvp/$slug',
   path: '/rsvp/$slug',
@@ -85,11 +103,14 @@ export interface FileRoutesByFullPath {
   '/events': typeof EventsRoute
   '/membership': typeof MembershipRoute
   '/renew-membership': typeof RenewMembershipRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/rsvp': typeof AdminRsvpRoute
   '/rsvp/$slug': typeof RsvpSlugRoute
   '/taste-of-india/2027': typeof TasteOfIndia2027Route
   '/taste-of-india/about': typeof TasteOfIndiaAboutRoute
   '/taste-of-india/funds-disbursement': typeof TasteOfIndiaFundsDisbursementRoute
   '/taste-of-india/past': typeof TasteOfIndiaPastRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -98,11 +119,14 @@ export interface FileRoutesByTo {
   '/events': typeof EventsRoute
   '/membership': typeof MembershipRoute
   '/renew-membership': typeof RenewMembershipRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/rsvp': typeof AdminRsvpRoute
   '/rsvp/$slug': typeof RsvpSlugRoute
   '/taste-of-india/2027': typeof TasteOfIndia2027Route
   '/taste-of-india/about': typeof TasteOfIndiaAboutRoute
   '/taste-of-india/funds-disbursement': typeof TasteOfIndiaFundsDisbursementRoute
   '/taste-of-india/past': typeof TasteOfIndiaPastRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -112,11 +136,14 @@ export interface FileRoutesById {
   '/events': typeof EventsRoute
   '/membership': typeof MembershipRoute
   '/renew-membership': typeof RenewMembershipRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/rsvp': typeof AdminRsvpRoute
   '/rsvp/$slug': typeof RsvpSlugRoute
   '/taste-of-india/2027': typeof TasteOfIndia2027Route
   '/taste-of-india/about': typeof TasteOfIndiaAboutRoute
   '/taste-of-india/funds-disbursement': typeof TasteOfIndiaFundsDisbursementRoute
   '/taste-of-india/past': typeof TasteOfIndiaPastRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -127,11 +154,14 @@ export interface FileRouteTypes {
     | '/events'
     | '/membership'
     | '/renew-membership'
+    | '/admin/dashboard'
+    | '/admin/rsvp'
     | '/rsvp/$slug'
     | '/taste-of-india/2027'
     | '/taste-of-india/about'
     | '/taste-of-india/funds-disbursement'
     | '/taste-of-india/past'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -140,11 +170,14 @@ export interface FileRouteTypes {
     | '/events'
     | '/membership'
     | '/renew-membership'
+    | '/admin/dashboard'
+    | '/admin/rsvp'
     | '/rsvp/$slug'
     | '/taste-of-india/2027'
     | '/taste-of-india/about'
     | '/taste-of-india/funds-disbursement'
     | '/taste-of-india/past'
+    | '/admin'
   id:
     | '__root__'
     | '/'
@@ -153,11 +186,14 @@ export interface FileRouteTypes {
     | '/events'
     | '/membership'
     | '/renew-membership'
+    | '/admin/dashboard'
+    | '/admin/rsvp'
     | '/rsvp/$slug'
     | '/taste-of-india/2027'
     | '/taste-of-india/about'
     | '/taste-of-india/funds-disbursement'
     | '/taste-of-india/past'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -167,11 +203,14 @@ export interface RootRouteChildren {
   EventsRoute: typeof EventsRoute
   MembershipRoute: typeof MembershipRoute
   RenewMembershipRoute: typeof RenewMembershipRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminRsvpRoute: typeof AdminRsvpRoute
   RsvpSlugRoute: typeof RsvpSlugRoute
   TasteOfIndia2027Route: typeof TasteOfIndia2027Route
   TasteOfIndiaAboutRoute: typeof TasteOfIndiaAboutRoute
   TasteOfIndiaFundsDisbursementRoute: typeof TasteOfIndiaFundsDisbursementRoute
   TasteOfIndiaPastRoute: typeof TasteOfIndiaPastRoute
+  AdminIndexRoute: typeof AdminIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -216,6 +255,27 @@ declare module '@tanstack/react-router' {
       path: '/renew-membership'
       fullPath: '/renew-membership'
       preLoaderRoute: typeof RenewMembershipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/rsvp': {
+      id: '/admin/rsvp'
+      path: '/admin/rsvp'
+      fullPath: '/admin/rsvp'
+      preLoaderRoute: typeof AdminRsvpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rsvp/$slug': {
@@ -263,11 +323,14 @@ const rootRouteChildren: RootRouteChildren = {
   EventsRoute: EventsRoute,
   MembershipRoute: MembershipRoute,
   RenewMembershipRoute: RenewMembershipRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminRsvpRoute: AdminRsvpRoute,
   RsvpSlugRoute: RsvpSlugRoute,
   TasteOfIndia2027Route: TasteOfIndia2027Route,
   TasteOfIndiaAboutRoute: TasteOfIndiaAboutRoute,
   TasteOfIndiaFundsDisbursementRoute: TasteOfIndiaFundsDisbursementRoute,
   TasteOfIndiaPastRoute: TasteOfIndiaPastRoute,
+  AdminIndexRoute: AdminIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
