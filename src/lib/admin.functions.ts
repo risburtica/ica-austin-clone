@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { useSession } from "@tanstack/react-start/server";
+import { useSession, getRequestHeader } from "@tanstack/react-start/server";
 import { redirect } from "@tanstack/react-router";
 import { z } from "zod";
 import { formatCentral } from "./rsvp.functions";
@@ -35,15 +35,54 @@ export const isAdmin = createServerFn({ method: "GET" }).handler(async () => {
   return { admin: !!session.data.admin };
 });
 
+const MAX_ATTEMPTS = 5;
+const LOCK_MS = 15 * 60 * 1000;
+
+function clientIp() {
+  const cf = getRequestHeader("cf-connecting-ip");
+  const xff = getRequestHeader("x-forwarded-for")?.split(",")[0]?.trim();
+  return (cf || xff || getRequestHeader("x-real-ip") || "unknown").slice(0, 100);
+}
+
+type LoginResult =
+  | { ok: true }
+  | { ok: false; locked: true; minutes: number }
+  | { ok: false; locked: false; remaining: number };
+
 export const adminLogin = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ passcode: z.string().min(1).max(200) }).parse(d))
-  .handler(async ({ data }) => {
+  .handler(async ({ data }): Promise<LoginResult> => {
     const expected = process.env["ADMIN_PASSCODE"];
     if (!expected) throw new Error("Admin passcode not configured");
-    if (!(await passcodeMatches(data.passcode, expected))) return { ok: false as const };
-    const session = await useSession<AdminSession>(sessionConfig());
-    await session.update({ admin: true });
-    return { ok: true as const };
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const ip = clientIp();
+    const now = Date.now();
+    const { data: row } = await supabaseAdmin.from("admin_login_attempts").select("*").eq("ip", ip).maybeSingle();
+
+    if (row?.locked_until && new Date(row.locked_until).getTime() > now) {
+      return { ok: false, locked: true, minutes: Math.ceil((new Date(row.locked_until).getTime() - now) / 60000) };
+    }
+
+    if (await passcodeMatches(data.passcode, expected)) {
+      if (row) await supabaseAdmin.from("admin_login_attempts").delete().eq("ip", ip);
+      const session = await useSession<AdminSession>(sessionConfig());
+      await session.update({ admin: true });
+      return { ok: true };
+    }
+
+    await new Promise((r) => setTimeout(r, 750));
+    const windowExpired = !row || now - new Date(row.window_start).getTime() > LOCK_MS || !!row.locked_until;
+    const count = windowExpired ? 1 : row!.failed_count + 1;
+    const lockedUntil = count >= MAX_ATTEMPTS ? new Date(now + LOCK_MS).toISOString() : null;
+    await supabaseAdmin.from("admin_login_attempts").upsert({
+      ip,
+      failed_count: count,
+      window_start: windowExpired ? new Date(now).toISOString() : row!.window_start,
+      locked_until: lockedUntil,
+      updated_at: new Date(now).toISOString(),
+    });
+    if (lockedUntil) return { ok: false, locked: true, minutes: 15 };
+    return { ok: false, locked: false, remaining: MAX_ATTEMPTS - count };
   });
 
 export const adminLogout = createServerFn({ method: "POST" }).handler(async () => {
