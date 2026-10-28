@@ -55,6 +55,10 @@ export const adminLogin = createServerFn({ method: "POST" })
     const expected = process.env["ADMIN_PASSCODE"];
     if (!expected) throw new Error("Admin passcode not configured");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    await supabaseAdmin
+      .from("admin_login_attempts")
+      .delete()
+      .lt("updated_at", new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString());
     const ip = clientIp();
     const now = Date.now();
     const { data: row } = await supabaseAdmin.from("admin_login_attempts").select("*").eq("ip", ip).maybeSingle();
@@ -91,12 +95,34 @@ export const adminLogout = createServerFn({ method: "POST" }).handler(async () =
   return { ok: true as const };
 });
 
+// Convert Central-time "YYYY-MM-DDTHH:mm" to a UTC ISO string.
+function centralToIso(local: string) {
+  const asUtc = new Date(`${local}:00Z`);
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago", hourCycle: "h23",
+    year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit",
+  }).formatToParts(asUtc);
+  const g = (t: string) => Number(parts.find((p) => p.type === t)!.value);
+  const shown = Date.UTC(g("year"), g("month") - 1, g("day"), g("hour"), g("minute"));
+  return new Date(asUtc.getTime() + (asUtc.getTime() - shown)).toISOString();
+}
+// UTC ISO → Central "YYYY-MM-DDTHH:mm" for datetime-local inputs.
+function isoToCentral(iso: string | null) {
+  if (!iso) return "";
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Chicago", hourCycle: "h23",
+    year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit",
+  }).formatToParts(new Date(iso));
+  const g = (t: string) => parts.find((p) => p.type === t)!.value;
+  return `${g("year")}-${g("month")}-${g("day")}T${g("hour")}:${g("minute")}`;
+}
+
 export const listRsvpEvents = createServerFn({ method: "GET" }).handler(async () => {
   await requireAdmin();
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data: events } = await supabaseAdmin
     .from("events")
-    .select("id, slug, title, event_date, location, is_active")
+    .select("id, slug, title, description, event_date, rsvp_deadline, location, members_only, is_active")
     .order("event_date", { ascending: false });
   const { data: rsvps } = await supabaseAdmin.from("event_rsvps").select("event_id, attending, adults, children");
   return (events ?? []).map((e) => {
@@ -104,8 +130,14 @@ export const listRsvpEvents = createServerFn({ method: "GET" }).handler(async ()
     const adults = rows.reduce((s, r) => s + r.adults, 0);
     const children = rows.reduce((s, r) => s + r.children, 0);
     return {
+      id: e.id,
       slug: e.slug,
       title: e.title,
+      description: e.description ?? "",
+      eventDateLocal: isoToCentral(e.event_date),
+      deadlineLocal: isoToCentral(e.rsvp_deadline),
+      membersOnly: e.members_only,
+      isActive: e.is_active,
       date: formatCentral(e.event_date),
       location: e.location,
       responses: rows.length,
@@ -117,6 +149,42 @@ export const listRsvpEvents = createServerFn({ method: "GET" }).handler(async ()
     };
   });
 });
+
+const eventInput = z.object({
+  id: z.string().uuid().optional(),
+  slug: z.string().trim().min(2).max(80).regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Slug: lowercase letters, numbers, dashes"),
+  title: z.string().trim().min(2).max(200),
+  description: z.string().trim().max(2000).optional().default(""),
+  location: z.string().trim().max(300).optional().default(""),
+  eventDateLocal: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/),
+  deadlineLocal: z.string().regex(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})?$/).optional().default(""),
+  membersOnly: z.boolean(),
+  isActive: z.boolean(),
+});
+
+export const saveRsvpEvent = createServerFn({ method: "POST" })
+  .inputValidator((d) => eventInput.parse(d))
+  .handler(async ({ data }): Promise<{ ok: true; slug: string } | { ok: false; error: string }> => {
+    await requireAdmin();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: clash } = await supabaseAdmin.from("events").select("id").eq("slug", data.slug).maybeSingle();
+    if (clash && clash.id !== data.id) return { ok: false, error: "That URL slug is already used by another event." };
+    const row = {
+      slug: data.slug,
+      title: data.title,
+      description: data.description || null,
+      location: data.location || null,
+      event_date: centralToIso(data.eventDateLocal),
+      rsvp_deadline: data.deadlineLocal ? centralToIso(data.deadlineLocal) : null,
+      members_only: data.membersOnly,
+      is_active: data.isActive,
+    };
+    const res = data.id
+      ? await supabaseAdmin.from("events").update(row).eq("id", data.id)
+      : await supabaseAdmin.from("events").insert(row);
+    if (res.error) return { ok: false, error: "Could not save the event. Please try again." };
+    return { ok: true, slug: data.slug };
+  });
 
 function cell(v: string | number | null | undefined) {
   const s = v == null ? "" : String(v);
